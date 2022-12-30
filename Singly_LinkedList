@@ -1,0 +1,233 @@
+#include<stdio.h>
+#include<stdlib.h>
+void insertbeg(int);
+void insertend(int);
+void insertmid(int);
+void display();
+void deletefront();
+void deleteend();
+
+
+
+struct node
+{
+int data;
+struct node*ptr;
+};
+
+struct node *start;
+struct node*temp;
+
+int main()
+{
+    int op,n;
+   do{
+
+    printf("\n choose \n 1.insert@beg \n 2.insert@end \n 3.insert@mid \n 4.delete@beg \n 5.delete@end \n 6.delete@mid \n 7.exit \n");
+    scanf("%d",&op);
+    switch(op)
+    {
+    case 1:
+        printf("enter the value : \t");
+        scanf("%d",&n);
+        insertbeg(n);
+        display();
+        break;
+
+    case 2:
+        printf("enter the value : \t");
+        scanf("%d",&n);
+        insertend(n);
+        display();
+        break;
+
+    case 3:
+        printf("enter the value: \t");
+        scanf("%d",&n);
+        insertmid(n);
+        display();
+        break;
+    case 4:
+        deletefront();
+        display();
+        break;
+    case 5:
+        deleteend();
+        display();
+        break;
+    case 6:
+        deletemid();
+        display();
+        break;
+    case 7:
+        return 0;
+        break;
+
+    }
+}while(op!=7);
+}
+
+void insertbeg(int n)
+{
+  temp=(struct node*)malloc(sizeof(struct node*));
+  if(start==NULL)
+  {
+      temp->ptr=NULL;
+      temp->data=n;
+      start=temp;
+  }else
+  {
+      temp->ptr=start;
+      temp->data=n;
+      start=temp;
+  }
+}
+
+void display()
+{
+    if(start==NULL)
+    {
+
+        printf("it is empty");
+    }else{
+    printf("list : \t");
+    for(temp=start;temp!=NULL;temp=temp->ptr)
+    {
+        printf("%d \t",temp->data);
+    }
+    }
+}
+
+void insertend(int n)
+{
+    struct node*p;
+    temp=(struct node*)malloc(sizeof (struct node*));
+    if(start==NULL)
+    {
+        temp->ptr=NULL;
+        temp->data=n;
+        start=temp;
+
+    }else
+    {
+        p=start;
+       while(p->ptr!=NULL)
+       {
+           p=p->ptr;
+       }
+       p->ptr=temp;
+       temp->ptr=NULL;
+       temp->data=n;
+
+    }
+}
+
+void insertmid(int n)
+{
+    int pos;
+    struct node*p;
+    temp=(struct node*)malloc(sizeof (struct node *));
+    printf("enter the position : \t");
+    scanf("%d",&pos);
+    p=start;
+    for(int i=1;i<pos-1;i++)
+    {
+        p=p->ptr;
+    }
+    temp->ptr=p->ptr;
+    p->ptr=temp;
+    temp->data=n;
+}
+
+void deletefront()
+{
+    temp=(struct node*)malloc(sizeof(struct node *));
+    if(start==NULL)
+    {
+        printf("it is empty");
+    }
+    else if(start->ptr==NULL)
+    {
+        temp=start;
+        start=NULL;
+        printf("deleted element is %d ",temp->data);
+        free(temp);
+    }else
+    {
+
+        temp=start;
+        start=start->ptr;
+        printf("deleted element is %d ",temp->data);
+        free(temp);
+    }
+}
+
+void deleteend()
+{
+    struct node*t;
+    temp=(struct node*)malloc(sizeof(struct node*));
+    if(start==NULL)
+    {
+        printf("it is empty");
+    }else if(start->ptr==NULL)
+    {
+        temp=start;
+        start=NULL;
+        printf("deleted element is %d ",temp->data);
+        free(temp);
+
+    }else{
+      temp=start;
+      t=start->ptr;
+      while(t->ptr!=NULL)
+      {
+          t=t->ptr;
+          temp=temp->ptr;
+      }
+      temp->ptr=NULL;
+      printf("deleted element is %d ",t->data);
+      free(t);
+     }
+
+}
+
+void deletemid()
+{
+    struct node*t;
+    struct node*p;
+    if(start==NULL)
+    {
+        printf("empty!!");
+    }
+    else{
+        printf("enter the position : \t");
+        int pos;
+        scanf("%d",&pos);
+        if(pos==1 & &start->ptr==NULL)
+        {
+            temp=start;
+            start=NULL;
+            printf("deleted element is %d ",temp->data);
+            free(temp);
+        }
+        else if(pos==1)
+        {
+            temp=start;
+            start=start->ptr;
+            printf("deleted element is %d ",temp->data);
+            free(temp);
+        }else
+        {
+            temp=start;
+            for(int i=1;i<pos-1;i++)
+            {
+                temp=temp->ptr;
+            }
+            t=temp->ptr;
+            temp->ptr=t->ptr;
+            printf("deleted element is %d ",t->data);
+            free(t);
+        }
+    }
+}
+
