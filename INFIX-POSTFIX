@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+
+int top=-1;
+char stack[32];
+
+void push(char);
+int pop();
+int priority(char);
+
+void push(char charElement)
+{
+    top++;
+     stack[top]=charElement;
+}
+
+int pop()
+{
+    char x;
+    x=stack[top];
+    if(x!='(')
+        printf("%c",x);
+    top--;
+    return x;
+}
+
+int priority(char c)
+{
+    if(c=='^')
+        return 3;
+    else if(c=='*' || c=='/')
+        return 2;
+    else if(c=='+' ||c=='-')
+        return 1;
+    else return 0;
+
+}
+
+
+int main()
+{
+
+    push('(');
+    char infix[67],*p;
+    printf("INFIX : \t");
+    scanf("%s", infix);
+    p=infix;
+    printf("POSTFIX  : \t");
+    while(*p!='\0')
+    {
+        if(isalnum(*p))
+            printf("%c", *p);
+        else if(*p=='(')
+              push(*p);
+        else if(*p==')')
+            while(pop()!='(');
+            else
+             {
+            while(priority(stack[top])>=priority(*p))
+                pop();
+                push(*p);
+
+          }
+         p++;
+
+    }
+    if(top>=0)
+    {
+        pop();
+    }
+}
